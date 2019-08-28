@@ -8,11 +8,15 @@ Link to the tutorial will be provided later:
 ## Installation
 
 ```bash
+npm -g i bower
+
 git clone git@github.com:brandiqa/sp-sails-chat.git
 
 cd sp-sails-chat
 
 npm install
+
+bower install
 
 sails lift
 ```
