@@ -3,7 +3,6 @@
 *
 **/
 
-const gravatar = require('gravatar')
 
 // Where to display auth errors
 const view = 'homepage';
@@ -43,7 +42,6 @@ module.exports = {
   registerUser: async (data, response) => {
     try {
       const {name, uuid} = data;
-      const avatar = gravatar.url(uuid, {s:200}, "https");
       let newUser = await User.create({name, uuid});
       // Let all sockets know a new user has been created
       User.publishCreate(newUser);
