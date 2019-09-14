@@ -10,7 +10,7 @@ module.exports = {
   render: async (request, response) => {
     try {
       let data = await User.findOne({
-        email: 'johnnie86@gmail.com'
+        uuid: 'aywevr'
       });
       if (!data) {
         return response.notFound('The user was NOT found!');
