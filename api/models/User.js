@@ -18,11 +18,6 @@ module.exports = {
       type: 'string',
       required: true,
       unique: true
-    },
-
-    system: {
-      type: 'boolean',
-      defaultsTo: false
     }
   }
 };

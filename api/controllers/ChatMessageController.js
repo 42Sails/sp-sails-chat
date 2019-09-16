@@ -12,30 +12,37 @@ module.exports = {
     //if (!request.isSocket) {
     //  return response.badRequest();
     //}
+    let messages = [];
+    request.body = request.body === undefined ? [] :  request.body;
     var skip = request.body.skip !== undefined ? request.body.skip : 0; // request.body.shift
-		var limit = request.body.limit !== undefined ? request.body.shift : 100;
+		var limit = request.body.limit !== undefined ? request.body.limit : 100;
+
+		var isSystem = request.body.isSystem !== undefined ? request.body.isSystem : false;
+
+
+
 		try {
-			let messages = await ChatMessage.find().skip(skip).limit(limit);
+
+      if (request.body.createdAt === undefined || request.body.createdAt === "" || request.body.createdAt === null || request.body.createdAt === Nan){
+		    if (request.body.search === undefined || request.body.search === "" || request.body.search === null || request.body.search === Nan ) {
+		  		  if (isSystem === true) {
+		           messages = await ChatMessage.find({isSystem: true}).skip(skip).limit(limit);
+		       } else {
+		           messages = await ChatMessage.find().skip(skip).limit(limit);
+		        }
+		    } else {
+		           messages = await ChatMessage.find({ message: { 'contains': request.body.search }}).skip(skip).limit(limit);
+		    }
+      } else {
+        messages = await ChatMessage.find({ createdAt: { ">" : request.body.createdAt } }).skip(skip).limit(limit);
+
+      }
+
 			return response.json(messages);
 		} catch(err) {
 			return response.serverError(messages);
 		}
 	},
-
-	find: async (request, response) => {
-
-//     if (!request.isSocket) {
-//      return response.badRequest();
-//     }
-//
-// 		try {
-// 			let messages = await ChatMessage.find().limit(100);
-// 			return response.json(messages);
-// 		} catch(err) {
-// 			return response.serverError(messages);
-// 		}
-	},
-
 
 	render: (request, response) => {
 		return response.view('chatroom');
