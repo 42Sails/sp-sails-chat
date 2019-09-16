@@ -8,7 +8,7 @@
  module.exports = {
 
  	authenticate: async (request, response) => {
- 		const email  = request.body.email;
+ 		const uuid  = request.body.uuid;
 
  		if(request.body.action == 'signup') {
  			const name = request.body.name;
@@ -22,7 +22,7 @@
  				return;
  			}
  			// Create new user
- 			const newUser = await AuthService.registerUser({name,email}, response);
+ 			const newUser = await AuthService.registerUser({name,uuid}, response);
  			if(!newUser) {
  				return;
  			}

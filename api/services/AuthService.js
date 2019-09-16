@@ -3,7 +3,6 @@
 *
 **/
 
-const gravatar = require('gravatar')
 
 // Where to display auth errors
 const view = 'homepage';
@@ -12,15 +11,15 @@ module.exports = {
 
   sendAuthError: (response, title, message, options) => {
     options = options || {};
-    const { email, name} = options;
-    response.view(view, { error: {title, message}, email, name });
+    const { uuid, name} = options;
+    response.view(view, { error: {title, message}, uuid, name });
     return false;
   },
 
   validateSignupForm: (request, response) => {
     if(request.body.name == '') {
-      return AuthService.sendAuthError(response, 'Signup Failed!', "You must provide a name to sign up", {email:request.body.email});
-    } else if(request.body.email == '') {
+      return AuthService.sendAuthError(response, 'Signup Failed!', "You must provide a name to sign up", {uuid:request.body.uuid});
+    } else if(request.body.uuid == '') {
       return AuthService.sendAuthError(response, 'Signup Failed!', "You must provide an email address to sign up", {name:request.body.name});
     }
     return true;
@@ -28,9 +27,9 @@ module.exports = {
 
   checkDuplicateRegistration: async (request, response) => {
     try {
-      let existingUser = await User.findOne({email:request.body.email});
+      let existingUser = await User.findOne({uuid:request.body.uuid});
       if(existingUser) {
-        const options = {email:request.body.email, name:request.body.name};
+        const options = {uuid:request.body.uuid, name:request.body.name};
         return AuthService.sendAuthError(response, 'Duplicate Registration!', "The email provided has already been registered", options);
       }
       return true;
@@ -42,9 +41,8 @@ module.exports = {
 
   registerUser: async (data, response) => {
     try {
-      const {name, email} = data;
-      const avatar = gravatar.url(email, {s:200}, "https");
-      let newUser = await User.create({name, email, avatar});
+      const {name, uuid} = data;
+      let newUser = await User.create({name, uuid});
       // Let all sockets know a new user has been created
       User.publishCreate(newUser);
       return newUser;
@@ -56,13 +54,13 @@ module.exports = {
 
   login: async (request, response) => {
     try {
-			let user = await User.findOne({email:request.body.email});
+			let user = await User.findOne({uuid:request.body.uuid});
 			if(user) { // Login Passed
 				request.session.userId = user.id;
 				request.session.authenticated = true;
 				return response.redirect('/chat');
 			} else { // Login Failed
-        return AuthService.sendAuthError(response, 'Login Failed!', "The email provided is not registered", {email:request.body.email});
+        return AuthService.sendAuthError(response, 'Login Failed!', "The uuid provided is not registered", {uuid:request.body.uuid});
       }
 		} catch (err) {
 			return response.serverError(err);
