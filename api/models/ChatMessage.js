@@ -18,7 +18,8 @@ module.exports = {
       model: 'user',
       required: true
     },
-   isSystem: {
+
+    isSystem: {
       type: 'boolean',
       defaultsTo: false
     }

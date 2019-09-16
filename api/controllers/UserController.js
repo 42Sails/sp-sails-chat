@@ -9,7 +9,7 @@ module.exports = {
 
   render: async (request, response) => {
     try {
-      let data = await User.findOne({id:request.session.userId});
+      let data = await User.findOne({uuid:request.body.uuid});
 
       if (!data) {
         return response.notFound('The user was NOT found!');

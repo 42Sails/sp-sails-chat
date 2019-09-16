@@ -58,18 +58,12 @@ module.exports = {
 			if(user) { // Login Passed
 				request.session.userId = user.id;
 				request.session.authenticated = true;
-				return response.redirect('/chat');
+				return response.json(user);
 			} else { // Login Failed
         return AuthService.sendAuthError(response, 'Login Failed!', "The uuid provided is not registered", {uuid:request.body.uuid});
       }
 		} catch (err) {
 			return response.serverError(err);
 		}
-  },
-
-  logout: (request, response) => {
-    request.session.userId = null;
-		request.session.authenticated = false;
-		response.redirect('/');
   }
 }

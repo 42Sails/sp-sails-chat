@@ -14,7 +14,7 @@ module.exports = {
     //}
     let messages = [];
     request.body = request.body === undefined ? [] :  request.body;
-    var skip = request.body.skip !== undefined ? request.body.skip : 0; // request.body.shift
+    var skip = request.body.skip !== undefined ? request.body.skip : 0;
 		var limit = request.body.limit !== undefined ? request.body.limit : 100;
 
 		var isSystem = request.body.isSystem !== undefined ? request.body.isSystem : false;
@@ -55,7 +55,7 @@ module.exports = {
     }
 
 		try {
-			let user = await User.findOne({id:request.session.userId});
+			let user = await User.findOne({uuid:request.body.uuid});
 			let msg = await ChatMessage.create({message:request.body.message, createdBy:user });
 			if(!msg.id) {
 				throw new Error('Message processing failed!');
