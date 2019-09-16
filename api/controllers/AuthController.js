@@ -32,7 +32,5 @@
  		const success = await AuthService.login(request, response);
  	},
 
- 	logout: (request, response) => {
- 		AuthService.logout(request, response);
- 	}
+
  };
