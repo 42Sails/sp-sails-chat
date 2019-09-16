@@ -61,7 +61,7 @@ module.exports = {
 				throw new Error('Message processing failed!');
 			}
 			msg.createdBy = user;
-			ChatMessage.publishCreate(msg);
+			//ChatMessage.publishCreate(msg);
 		} catch(err) {
 			return response.serverError(err);
 		}

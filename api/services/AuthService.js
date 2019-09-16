@@ -44,7 +44,7 @@ module.exports = {
       const {name, uuid} = data;
       let newUser = await User.create({name, uuid});
       // Let all sockets know a new user has been created
-      User.publishCreate(newUser);
+      // User.publishCreate(newUser);
       return newUser;
     } catch (err) {
       response.serverError(err);
