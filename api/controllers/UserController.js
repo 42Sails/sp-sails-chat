@@ -18,5 +18,9 @@ module.exports = {
     } catch (err) {
       response.serverError(err);
     }
+  },
+  nick: (request, response) => {
+      let nick = "User" + Math.floor(Math.random() * (1000 - 100)) + 10;
+      response.json({"nick": nick});
   }
 };

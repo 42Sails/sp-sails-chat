@@ -39,6 +39,10 @@ module.exports.routes = {
     controller: 'UserController',
     action: 'render'
   },
+  '/nick': {
+    controller: 'UserController',
+    action: 'nick'
+  },
   '/chat': {
       controller: 'ChatMessageController',
       action: 'render'

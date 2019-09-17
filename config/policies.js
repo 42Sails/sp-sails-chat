@@ -26,7 +26,7 @@ module.exports.policies = {
   *                                                                          *
   ***************************************************************************/
 
-  // '*': true,
+  '*': true,
 
   /***************************************************************************
   *                                                                          *
@@ -49,11 +49,4 @@ module.exports.policies = {
 		// feed : ['isNiceToAnimals', 'hasRabbitFood']
 	// }
 
-  ChatMessageController: {
-    '*': 'sessionAuth'
-  },
-
-  UserController: {
-    '*': 'sessionAuth'
-  },
 };
