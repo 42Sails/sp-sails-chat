@@ -9,9 +9,10 @@ module.exports = {
 
 	index: async (request, response) => {
 
-    //if (!request.isSocket) {
-    //  return response.badRequest();
-    //}
+    if (!request.isSocket) {
+     return response.badRequest();
+    }
+
     let messages = [];
     request.body = request.body === undefined ? [] :  request.body;
     var skip = request.body.skip !== undefined ? request.body.skip : 0;
@@ -44,9 +45,9 @@ module.exports = {
 		}
 	},
 
-	render: (request, response) => {
-		return response.view('chatroom');
-	},
+// 	render: (request, response) => {
+// 		return response.view('chatroom');
+// 	},
 
 	postMessage: async (request, response) => {
 		// Make sure this is a socket request (not traditional HTTP)
