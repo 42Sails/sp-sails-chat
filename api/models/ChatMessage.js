@@ -15,8 +15,8 @@ module.exports = {
     },
 
     createdBy : {
-      model: 'user',
-      required: true
+      model: 'user'//,
+     // required: true
     },
 
     isSystem: {

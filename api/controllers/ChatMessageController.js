@@ -12,7 +12,6 @@ module.exports = {
     if (!request.isSocket) {
      return response.badRequest();
     }
-
     let messages = [];
     request.body = request.body === undefined ? [] :  request.body;
     var skip = request.body.skip !== undefined ? request.body.skip : 0;
@@ -54,15 +53,17 @@ module.exports = {
 
 
 		try {
-
 			let user = await User.findOne({uuid: request.body.uuid });
 			console.log(user);
-			let msg = await ChatMessage.create({message:request.body.message, createdBy:user.id  });
+			let msg = await ChatMessage.create({message:request.body.message, createdBy:user.id});
+
 			if(!msg.id) {
 				throw new Error('Message processing failed!');
 			}
-			msg.createdBy = user.id ;
+
+			//msg.createdBy = user ;
 			ChatMessage.publishCreate(msg);
+
 		} catch(err) {
 			return response.serverError(err);
 		}

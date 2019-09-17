@@ -9,7 +9,7 @@
 
  	authenticate: async (request, response) => {
  		const uuid  = request.body.uuid;
-
+    User.message( "test", "123")
  		if(request.body.action == 'signup') {
  			const name = request.body.name;
  			// Validate signup form
