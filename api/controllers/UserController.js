@@ -14,13 +14,22 @@ module.exports = {
       if (!data) {
         return response.notFound('The user was NOT found!');
       }
-      response.view('profile', { data });
+      response.json(data);
     } catch (err) {
       response.serverError(err);
     }
   },
+
   nick: (request, response) => {
       let nick = "User" + Math.floor(Math.random() * (1000 - 100)) + 10;
       response.json({"nick": nick});
   }
+
+  update: (request, response) => {
+
+      request.body = request.body === undefined ? [] :  request.body;
+      let user = await User.update({uuid:request.body.uuid}, {name: request.body.new_nick});
+      response.json(user);
+  }
+
 };
