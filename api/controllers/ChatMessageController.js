@@ -57,11 +57,11 @@ module.exports = {
 
 		try {
 			let user = await User.findOne({uuid:request.body.uuid});
-			let msg = await ChatMessage.create({message:request.body.message, createdBy:user });
+			let msg = await ChatMessage.create({message:request.body.message, createdBy:user.id });
 			if(!msg.id) {
 				throw new Error('Message processing failed!');
 			}
-			msg.createdBy = user;
+			msg.createdBy = user.id;
 			ChatMessage.publishCreate(msg);
 		} catch(err) {
 			return response.serverError(err);
