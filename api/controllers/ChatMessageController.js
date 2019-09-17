@@ -9,9 +9,10 @@ module.exports = {
 
 	index: async (request, response) => {
 
-    //if (!request.isSocket) {
-    //  return response.badRequest();
-    //}
+    if (!request.isSocket) {
+     return response.badRequest();
+    }
+
     let messages = [];
     request.body = request.body === undefined ? [] :  request.body;
     var skip = request.body.skip !== undefined ? request.body.skip : 0;
@@ -26,15 +27,15 @@ module.exports = {
       if (request.body.createdAt === undefined || request.body.createdAt === "" || request.body.createdAt === null || request.body.createdAt === Nan){
 		    if (request.body.search === undefined || request.body.search === "" || request.body.search === null || request.body.search === Nan ) {
 		  		  if (isSystem === true) {
-		           messages = await ChatMessage.find({isSystem: true}).skip(skip).limit(limit);
+		           messages = await ChatMessage.find({isSystem: true}).skip(skip).limit(limit).populate();
 		       } else {
-		           messages = await ChatMessage.find().skip(skip).limit(limit);
+		           messages = await ChatMessage.find().skip(skip).limit(limit).populate();
 		        }
 		    } else {
-		           messages = await ChatMessage.find({ message: { 'contains': request.body.search }}).skip(skip).limit(limit);
+		           messages = await ChatMessage.find({ message: { 'contains': request.body.search }}).skip(skip).limit(limit).populate();
 		    }
       } else {
-        messages = await ChatMessage.find({ createdAt: { ">" : request.body.createdAt } }).skip(skip).limit(limit);
+        messages = await ChatMessage.find({ createdAt: { ">" : request.body.createdAt } }).skip(skip).limit(limit).populate();
 
       }
 
@@ -44,9 +45,9 @@ module.exports = {
 		}
 	},
 
-	render: (request, response) => {
-		return response.view('chatroom');
-	},
+// 	render: (request, response) => {
+// 		return response.view('chatroom');
+// 	},
 
 	postMessage: async (request, response) => {
 		// Make sure this is a socket request (not traditional HTTP)
@@ -61,7 +62,7 @@ module.exports = {
 				throw new Error('Message processing failed!');
 			}
 			msg.createdBy = user;
-			//ChatMessage.publishCreate(msg);
+			ChatMessage.publishCreate(msg);
 		} catch(err) {
 			return response.serverError(err);
 		}
