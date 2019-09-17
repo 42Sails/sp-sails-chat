@@ -23,9 +23,9 @@ module.exports = {
   nick: (request, response) => {
       let nick = "User" + Math.floor(Math.random() * (1000 - 100)) + 10;
       response.json({"nick": nick});
-  }
+  },
 
-  update: (request, response) => {
+  update: async (request, response) => {
 
       request.body = request.body === undefined ? [] :  request.body;
       let user = await User.update({uuid:request.body.uuid}, {name: request.body.new_nick});
