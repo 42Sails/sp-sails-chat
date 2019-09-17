@@ -27,15 +27,15 @@ module.exports = {
       if (request.body.createdAt === undefined || request.body.createdAt === "" || request.body.createdAt === null || request.body.createdAt === Nan){
 		    if (request.body.search === undefined || request.body.search === "" || request.body.search === null || request.body.search === Nan ) {
 		  		  if (isSystem === true) {
-		           messages = await ChatMessage.find({isSystem: true}).skip(skip).limit(limit).populate(createdBy);
+		           messages = await ChatMessage.find({isSystem: true}).skip(skip).limit(limit).populate("createdBy");
 		       } else {
-		           messages = await ChatMessage.find().skip(skip).limit(limit).populate(createdBy);
+		           messages = await ChatMessage.find().skip(skip).limit(limit).populate("createdBy");
 		        }
 		    } else {
-		           messages = await ChatMessage.find({ message: { 'contains': request.body.search }}).skip(skip).limit(limit).populate(createdBy);
+		           messages = await ChatMessage.find({ message: { 'contains': request.body.search }}).skip(skip).limit(limit).populate("createdBy");
 		    }
       } else {
-        messages = await ChatMessage.find({ createdAt: { ">" : request.body.createdAt } }).skip(skip).limit(limit).populate(createdBy);
+        messages = await ChatMessage.find({ createdAt: { ">" : request.body.createdAt } }).skip(skip).limit(limit).populate("createdBy");
 
       }
 
