@@ -39,9 +39,9 @@ module.exports = {
 
       }
 
-			return response.json(messages);
+			return response.json(...messages);
 		} catch(err) {
-			return response.serverError(messages);
+			return response.serverError(...messages);
 		}
 	},
 
