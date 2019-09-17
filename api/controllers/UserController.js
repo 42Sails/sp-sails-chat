@@ -29,7 +29,7 @@ module.exports = {
 
       request.body = request.body === undefined ? [] :  request.body;
       let user = await User.update({uuid:request.body.uuid}, {name: request.body.new_nick});
-      response.json(user);
+      response.json(...user);
   }
 
 };
