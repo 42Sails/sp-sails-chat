@@ -62,7 +62,8 @@ module.exports = {
 				throw new Error('Message processing failed!');
 			}
 			msg.createdBy = user.id;
-			ChatMessage.publishCreate(msg);
+			//ChatMessage.publishCreate(msg);
+			sails.sockets.broadcast("chatmessage", "test", msg);
 		} catch(err) {
 			return response.serverError(err);
 		}
